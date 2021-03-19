@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <sys/types.h>	//biblioteca necessária para o uso de dirent.h
 #include <time.h> // biblioteca para formatação da data.
