@@ -1,1 +1,1 @@
-O terceiro problema não tá funcionando como eu queria, ainda farei modificações futuras.
+Terceiro problema feito, faltando somente alguns comentários adicionais no código. 
