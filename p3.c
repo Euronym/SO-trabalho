@@ -27,7 +27,11 @@ int main(int argc, char *argv[])//parâmetros para leitura de linha.
 			acrescenta L ao final de cada arquivo dentro do 				diretório, utilizando para isso a função 				rename que recebe como parâmetros o antigo nome do 				arquivo e substitui pela concatenação do 
 			arquivo com o char "L".	
 		*/
-		int teste = rename(sd->d_name, strcat(sd->d_name, "L"));
+		char aux_char[100] = "L";
+		char aux_string[100];
+		strcpy(aux_string, sd->d_name);
+		strcat(aux_char, aux_string);
+		int teste = rename(sd->d_name, aux_char);
 		printf("Novo nome de arquivo[%d]: %s\n", cont,sd->d_name);
 		printf("%d\n",teste);
 	}	
