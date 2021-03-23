@@ -5,7 +5,6 @@
 
 int main(int argc, char * argv[])
 {
-	int status;
 	pid_t filho1_pid; // cria o primeiro filho.
 	pid_t filho2_pid; // cria o segundo filho.
 	
@@ -42,7 +41,7 @@ int main(int argc, char * argv[])
 		else
 		{
 			wait(NULL); // aguarda a execução do segundo processo.
-		printf("PID do pai: %d\n",getpid());	
+			printf("PID do pai: %d\n",getpid());	
 		}
 	}
 	
