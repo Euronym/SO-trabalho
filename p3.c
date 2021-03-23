@@ -24,7 +24,10 @@ int main(int argc, char *argv[])//parâmetros para leitura de linha.
 	{	
 		cont++;
 		/*
-			acrescenta L ao final de cada arquivo dentro do 				diretório, utilizando para isso a função 				rename que recebe como parâmetros o antigo nome do 				arquivo e substitui pela concatenação do 
+			acrescenta L ao final de cada arquivo dentro do 
+			diretório, utilizando para isso a função 				
+			rename que recebe como parâmetros o antigo nome do 				
+			arquivo e substitui pela concatenação do 
 			arquivo com o char "L".	
 		*/
 		char aux_char[100] = "L";
