@@ -14,7 +14,6 @@ Entrega de todos os trabalhos: 27 de Abril
 
 
 -----------------------------------------------
-
 o Ângelo Ricardo dos Anjos - 201706840058
 
 o Bruno Santos Martins - 201906840037
@@ -23,6 +22,6 @@ o Cláudio Matheus Modesto Barata – 201906840039
 
 o Danilo Ren Nicioka - 201906840035
 
-o Gabriel da Paixão Fernandes – 201906840027
+o Gabriel da Paixão Fernandes - 201906840027
 ------------------------------------------------
 
