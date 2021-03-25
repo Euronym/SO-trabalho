@@ -30,7 +30,7 @@ int main(int argc, char *argv[])//parâmetros para leitura de linha.
 			arquivo e substitui pela concatenação do 
 			arquivo com o char "L".	
 		*/
-		char aux_char[100] = "L";
+		char aux_char[100] = "L";//cria uma variavel auxiliar
 		char aux_string[100];
 		strcpy(aux_string, sd->d_name);
 		strcat(aux_char, aux_string);
