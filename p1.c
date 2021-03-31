@@ -52,9 +52,10 @@ void main(){
 
     concatenar(arquivo3, arquivo1); //chama a função concatenar
     concatenar(arquivo3, arquivo2);
-    printf("O arquivo concatenado.txt foi criado ao concatenar os arquivos %s e %s",nome_arq1,nome_arq2);
+    printf("O arquivo concatenado.txt foi criado ao concatenar os arquivos %s e %s\n",nome_arq1,nome_arq2);
 
-    fclose (arquivo1); //fechando os arquivos
+    //Fechando os arquivos
+    fclose (arquivo1);
     fclose (arquivo2);
     fclose (arquivo3);
 }
