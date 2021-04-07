@@ -4,7 +4,7 @@
 #include <semaphore.h> // biblioteca para trabalhar com semáforos.
 #include <pthread.h> // biblioteca para a utilização de threads.
 
-#define N 100 // define o tamanho do buffer compartilhado como 100.
+#define N 5// define o tamanho do buffer compartilhado como 100.
 #define MAX_ITEMS 5 // define o tamanho máximo de itens que podem ser produzidos como 5.
 #define MAX_THREADS 2  // define o número máximo de produtores e consumidores criados como 2.
 
