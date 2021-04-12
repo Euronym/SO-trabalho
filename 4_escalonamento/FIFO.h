@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "structure.h"
 
 // Function to find the waiting time for all processes
 int waitingtime(Process processes[], int n, int wait_time[]) {

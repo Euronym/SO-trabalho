@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "FIFO2.h"
+#include "structure.h"
+#include "FIFO.h"
+#include "sorteio.h"
 
 // define como 10 o número máximo de processos que podem existir.
 #define MAX_PROCESSES 10
@@ -17,7 +19,7 @@ int main(int argc, char * argv[])
         processes[i].burst_time = burst_time[i];
     }
     int n = sizeof(processes) / sizeof(processes[0]);
+    //avgtime(processes, n);
     avgtime(processes, n);
-
     return 0;
 }
