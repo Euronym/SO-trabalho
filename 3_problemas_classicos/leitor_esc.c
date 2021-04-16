@@ -7,8 +7,6 @@
 #define MAX_READERS 5
 // número máximo de escritores
 #define MAX_WRITERS 5
-// máximo de itens a serem atualizados.
-#define MAX_ITEMS 5
 
 void *reader(void *pno);
 void *writer(void *pno);
