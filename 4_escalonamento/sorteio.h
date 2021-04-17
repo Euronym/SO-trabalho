@@ -15,7 +15,7 @@ int tempoMedioSorteio(Process processes[], int n)
     //função para achar o tempo de turn around para cada processo.
     turnaroundSorteio(processes, n, wait_time, tat);
     //exibe os detalhes de cada processo.
-    printf("Processes  Burst   Waiting Turn around \n");
+    printf("PID  Burst   Waiting Turn around \n");
     // realiza as somas para calcular as médias do tempo de espera e de turn around.
     for (i = 0; i < n; i++)
     {

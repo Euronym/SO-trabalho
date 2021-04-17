@@ -27,7 +27,7 @@ int avgtime(Process processes[], int n) {
    //Function to find turn around time for all processes
    turnaroundtime(processes, n, wait_time, tat);
    //Display processes along with all details
-   printf("Processes  Burst   Waiting Turn around \n");
+   printf("PID  Burst   Waiting Turn around \n");
    // Calculate total waiting time and total turn
    // around time
    for ( i=0; i<n; i++) {
