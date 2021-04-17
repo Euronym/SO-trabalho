@@ -6,15 +6,18 @@
 
 #define MAX_PROCESS 10
 
+// Cálculo do tempo médio de execução de cada processo //
 void average_time(Process[], int[]);
+// Definição do tempo de espera de cada processo //
 int waiting_time(int[], int[]);
+// Definição do tempo de vida de cada processo //
 int turn_around_time(int[], int[], int[]);
 
 
 int main(){
 	// Todos os processos do sistema //
 	Process processes[MAX_PROCESS];
-	// Array de burst times //
+	// Array de burst time //
 	int burst_time_array[MAX_PROCESS];
 	// Definição aleatória do PID e burst time //
 	for (int i = 0; i < MAX_PROCESS; i++) {
@@ -62,7 +65,7 @@ void average_time(Process processes[], int burst_time_array[]) {
 		total_tat += tat[i];
 	}
 
-	// Mostra as informações na saída padrão //
+	// Mostra a média das métricas na saída padrão //
 	for (int i = 0; i < MAX_PROCESS; i++) {
 		printf("%d\t\t%d\t\t%d\t\t%d\n", processes[i].proc_id, burst_time_array[i], wait_time[i], tat[i]);
 	}
