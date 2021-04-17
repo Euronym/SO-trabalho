@@ -6,7 +6,7 @@
 
 #define MAX_PROCESS 10
 
-// Cálculo do tempo médio de execução de cada processo //
+// Cálculo da média das métricas de escalonamento //
 void average_time(Process[], int[]);
 // Definição do tempo de espera de cada processo //
 int waiting_time(int[], int[]);
