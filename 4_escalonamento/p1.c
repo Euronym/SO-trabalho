@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
         processes[i].burst_time = burst_time[i];
     }
     int n = sizeof(processes) / sizeof(processes[0]);
-    avgtime(processes, n);
+    //avgtime(processes, n);
     tempoMedioSorteio(processes, n);
     return 0;
 }
