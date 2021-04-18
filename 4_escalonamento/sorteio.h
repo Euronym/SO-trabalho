@@ -6,6 +6,7 @@ int tempoMedioSorteio(Process processes[], int n);
 int tempoEsperaSorteio(Process processes[], Process shuffled_array[], int n, int wait_time[]);
 int turnaroundSorteio(Process shuffled_array[], int n , int wait_time[], int tat[]);
 void swap(Process *a, Process *b);
+
 int tempoMedioSorteio(Process processes[], int n)
 {
     int wait_time[n], tat[n], total_wt = 0, total_tat = 0;
@@ -18,7 +19,7 @@ int tempoMedioSorteio(Process processes[], int n)
     //exibe os detalhes de cada processo.
     printf("PID  Burst   Waiting Turn around \n");
     // realiza as somas para calcular as médias do tempo de espera e de turn around.
-    for (i = 0; i < n; i++)
+    for(i = 0; i < n; i++)
     {
        total_wt = total_wt + wait_time[i];
        total_tat = total_tat + tat[i];

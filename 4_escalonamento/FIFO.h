@@ -1,40 +1,49 @@
 #include <stdio.h>
 
-// Function to find the waiting time for all processes
+// acha o tempo de espera de todos os processos.
+int waitingtime(Process processes[], int n, int wait_time[]);
+// função para calcular o tempo de resposta.
+int turnaroundtime(Process processes[], int n, int wait_time[], int tat[]);
+// função para calcular a média de tempo.
+int avgtime(Process processes[], int n);
+
 int waitingtime(Process processes[], int n, int wait_time[]) {
-   // waiting time for first process is 0
+   // o primeiro processo não possui tempo de espera associado.
    wait_time[0] = 0;
    // calculating waiting time
-   for (int i = 1; i < n ; i++ )
-   wait_time[i] = processes[i - 1].burst_time + wait_time[i-1] ;
+   for(int i = 1; i < n ; i++)
+   {
+       wait_time[i] = processes[i - 1].burst_time + wait_time[i-1];
+   }
    return 0;
 }
-// Function to calculate turn around time
-int turnaroundtime(Process processes[], int n, int wait_time[], int tat[]) {
-   // calculating turnaround time by adding
+int turnaroundtime(Process processes[], int n, int wait_time[], int tat[])
+{
+   // calcula o tempo de resposta somando o tempo de burst com o tempo de espera.
    // burst_time[i] + wait_time[i]
-   int i;
-   for ( i = 0; i < n ; i++)
-   tat[i] = processes[i].burst_time + wait_time[i];
+   for (int i = 0; i < n ; i++)
+   {
+       tat[i] = processes[i].burst_time + wait_time[i];
+   }
    return 0;
 }
-//Function to calculate average time
-int avgtime(Process processes[], int n) {
+int avgtime(Process processes[], int n)
+{
    int wait_time[n], tat[n], total_wt = 0, total_tat = 0;
-   int i;
-   //Function to find waiting time of all processes
+   //calcula o tempo de espera de todos os processos.
    waitingtime(processes, n , wait_time);
-   //Function to find turn around time for all processes
+   //calcula o tempo de resposta de todos os processos.
    turnaroundtime(processes, n, wait_time, tat);
-   //Display processes along with all details
+   //exibe as informações obtidas.
    printf("PID  Burst   Waiting Turn around \n");
-   // Calculate total waiting time and total turn
-   // around time
-   for ( i=0; i<n; i++) {
+   //calcula o tempo total de espera e de resposta
+   for (int i = 0; i < n;i++)
+   {
       total_wt = total_wt + wait_time[i];
       total_tat = total_tat + tat[i];
       printf(" %d\t  %d\t\t %d \t%d\n", i+1, processes[i].burst_time, wait_time[i], tat[i]);
    }
+   // exibe as médias dos tempos totais obtidos anteriormente.
    printf("Average waiting time = %f\n", (float)total_wt / (float)n);
    printf("Average turn around time = %f\n", (float)total_tat / (float)n);
    return 0;
