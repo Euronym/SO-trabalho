@@ -21,8 +21,8 @@ int main(){
 	int burst_time_array[MAX_PROCESS];
 	// Definição aleatória do PID e burst time //
 	for (int i = 0; i < MAX_PROCESS; i++) {
-		processes[i].proc_id = rand() % 15;
-		processes[i].burst_time = (rand()+3) % 18;
+		processes[i].proc_id = i;
+		processes[i].burst_time = (rand() % 18) + 1;
 		
 	}
 	// alocação dos burst_times em um array //
@@ -69,6 +69,6 @@ void average_time(Process processes[], int burst_time_array[]) {
 	for (int i = 0; i < MAX_PROCESS; i++) {
 		printf("%d\t\t%d\t\t%d\t\t%d\n", processes[i].proc_id, burst_time_array[i], wait_time[i], tat[i]);
 	}
-	printf("\x1b[31mAverage wait time: %.3f\n\x1b[33mAverage turn around time: %.3f\n",
+	printf("\x1b[31mAverage wait time: %.3f\n\x1b[33mAverage turn around time: %.3f\x1b[0m\n",
 		total_wt/MAX_PROCESS, total_tat/MAX_PROCESS);
 }
