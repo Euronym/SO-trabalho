@@ -7,11 +7,11 @@
 #define MAX_PROCESS 10
 
 // Cálculo das médias de escalonamento //
-void average_time(Process[], int[], int[], int[]);
+void rr_avgtime(Process[], int[], int[], int[]);
 // Definição do tempo de vida de cada processo //
-int turn_around_time(Process[], int[], int tat[]);
+int rr_turnaroundtime(Process[], int[], int tat[]);
 // Definição do tempo de espera de cada process //
-int waiting_time(int[], int[]);
+int rr_waitingtime(int[], int[]);
 
 int main () {
 	// Todos os processos no sistema operacional //
@@ -31,18 +31,18 @@ int main () {
 	for (int i = 0; i < MAX_PROCESS; i++) {
 		remaind_time[i] = processes[i].burst_time;
 	}
-	
-	average_time(processes, wait_time, tat, remaind_time);
+
+	rr_avgtime(processes, wait_time, tat, remaind_time);
 	return 0;
 }
 
-void average_time(Process processes[], int wait_time[], int tat[], int remaind_time[]) {
+void rr_avgtime(Process processes[], int wait_time[], int tat[], int remaind_time[]) {
 	float total_wt, total_tat = 0;
-	waiting_time(remaind_time, wait_time);
-	turn_around_time(processes, wait_time, tat);
+	rr_waitingtime(remaind_time, wait_time);
+	rr_turnaroundtime(processes, wait_time, tat);
 	for (int i = 0; i < MAX_PROCESS; i++) {
 		total_wt += wait_time[i];
-		total_tat += tat[i];	
+		total_tat += tat[i];
 	}
 	printf("PID\t Burst Time\tWait Time\tTurn Around Time\n");
 	for (int i = 0; i < MAX_PROCESS; i++) {
@@ -51,17 +51,17 @@ void average_time(Process processes[], int wait_time[], int tat[], int remaind_t
 	}
 	printf("\x1b[33mAverage waiting time: %.3f \n\x1b[31mAverage turn around time: %.3f\x1b[0m\n",
 			total_wt/MAX_PROCESS, total_tat/MAX_PROCESS);
-	
+
 }
 
 
-int turn_around_time(Process processes[], int wait_time[], int tat[]) {
+int rr_turnaroundtime(Process processes[], int wait_time[], int tat[]) {
 	for (int i = 0; i < MAX_PROCESS; i++) {
 		tat[i] = wait_time[i] + processes[i].burst_time;
 	}
 	return 0;
 }
-int waiting_time(int remaind_time[], int wait_time[]) {
+int rr_waitingtime(int remaind_time[], int wait_time[]) {
 	// Variável contadora de processos concluídos //
 	int done_condition;
 	wait_time[MAX_PROCESS - 1] = 0;
@@ -86,13 +86,13 @@ int waiting_time(int remaind_time[], int wait_time[]) {
 			else
 				wait_time[i] = wait_time[i-1] + TIME_SLICE;
 
-			// Se o burst time restante é maior que o TIME_SLICE, 
+			// Se o burst time restante é maior que o TIME_SLICE,
 			// o burst time atual é decrementado
-			if ( remaind_time[i] >= TIME_SLICE ) { 
+			if ( remaind_time[i] >= TIME_SLICE ) {
 				remaind_time[i] -= TIME_SLICE;
 			// Senão o burst time restante será 0, ou seja, o processo,
 			// conseguirá ser finalizado neste ciclo
-			} else { 
+			} else {
 				if ( i == 0 )
 				wait_time[i] = wait_time[i-1] + remaind_time[i];
 				remaind_time[i] = 0;
@@ -101,5 +101,3 @@ int waiting_time(int remaind_time[], int wait_time[]) {
 	}
 	return 0;
 }
-
-

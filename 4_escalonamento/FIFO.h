@@ -1,13 +1,13 @@
 #include <stdio.h>
 
 // acha o tempo de espera de todos os processos.
-int waitingtime(Process processes[], int n, int wait_time[]);
+int fifo_waitingtime(Process processes[], int n, int wait_time[]);
 // função para calcular o tempo de resposta.
-int turnaroundtime(Process processes[], int n, int wait_time[], int tat[]);
+int fifo_turnaroundtime(Process processes[], int n, int wait_time[], int tat[]);
 // função para calcular a média de tempo.
-int avgtime(Process processes[], int n);
+int fifo_avgtime(Process processes[], int n);
 
-int waitingtime(Process processes[], int n, int wait_time[]) {
+int fifo_waitingtime(Process processes[], int n, int wait_time[]) {
    // o primeiro processo não possui tempo de espera associado.
    wait_time[0] = 0;
    // calculating waiting time
@@ -17,7 +17,7 @@ int waitingtime(Process processes[], int n, int wait_time[]) {
    }
    return 0;
 }
-int turnaroundtime(Process processes[], int n, int wait_time[], int tat[])
+int fifo_turnaroundtime(Process processes[], int n, int wait_time[], int tat[])
 {
    // calcula o tempo de resposta somando o tempo de burst com o tempo de espera.
    // burst_time[i] + wait_time[i]
@@ -27,13 +27,13 @@ int turnaroundtime(Process processes[], int n, int wait_time[], int tat[])
    }
    return 0;
 }
-int avgtime(Process processes[], int n)
+int fifo_avgtime(Process processes[], int n)
 {
    int wait_time[n], tat[n], total_wt = 0, total_tat = 0;
    //calcula o tempo de espera de todos os processos.
-   waitingtime(processes, n , wait_time);
+   fifo_waitingtime(processes, n , wait_time);
    //calcula o tempo de resposta de todos os processos.
-   turnaroundtime(processes, n, wait_time, tat);
+   fifo_turnaroundtime(processes, n, wait_time, tat);
    //exibe as informações obtidas.
    printf("PID  Burst   Waiting Turn around \n");
    //calcula o tempo total de espera e de resposta

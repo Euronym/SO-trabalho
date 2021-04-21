@@ -2,20 +2,20 @@
 #include <stdlib.h>
 #include <time.h>
 
-int tempoMedioSorteio(Process processes[], int n);
-int tempoEsperaSorteio(Process processes[], Process shuffled_array[], int n, int wait_time[]);
-int turnaroundSorteio(Process shuffled_array[], int n , int wait_time[], int tat[]);
+int lottery_avgtime(Process processes[], int n);
+int lottery_waitingtime(Process processes[], Process shuffled_array[], int n, int wait_time[]);
+int lottery_turnaroundtime(Process shuffled_array[], int n , int wait_time[], int tat[]);
 void swap(Process *a, Process *b);
 
-int tempoMedioSorteio(Process processes[], int n)
+int lottery_avgtime(Process processes[], int n);
 {
     int wait_time[n], tat[n], total_wt = 0, total_tat = 0;
     // cria uma array para armazenar os elementos sorteados.
     Process shuffled_array[n];
     int i;
-    tempoEsperaSorteio(processes,shuffled_array, n, wait_time);
+    lottery_waitingtime(processes,shuffled_array, n, wait_time);
     //função para achar o tempo de turn around para cada processo.
-    turnaroundSorteio(shuffled_array, n, wait_time, tat);
+    lottery_turnaroundtime(shuffled_array, n, wait_time, tat);
     //exibe os detalhes de cada processo.
     printf("PID  Burst   Waiting Turn around \n");
     // realiza as somas para calcular as médias do tempo de espera e de turn around.
@@ -36,7 +36,7 @@ void swap(Process *a, Process *b)
     *a = *b;
     *b = temp;
 }
-int tempoEsperaSorteio(Process processes[], Process shuffled_array[], int n, int wait_time[])
+int lottery_waitingtime(Process processes[], Process shuffled_array[], int n, int wait_time[])
 {
     //define a semente necessária para gerar números aleatórios.
     srandom(time(NULL));
@@ -61,7 +61,7 @@ int tempoEsperaSorteio(Process processes[], Process shuffled_array[], int n, int
     }
     return 0;
 }
-int turnaroundSorteio(Process shuffled_array[],int n, int wait_time[], int tat[])
+int lottery_turnaroundtime(Process shuffled_array[],int n, int wait_time[], int tat[])
 {
     // calcula o tempo de turn around para cada processo somando o tempo de burst com o tempo de espera.
     for(int i = 0;i < n;i++)

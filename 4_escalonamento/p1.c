@@ -19,7 +19,10 @@ int main(int argc, char * argv[])
         processes[i].burst_time = burst_time[i];
     }
     int n = sizeof(processes) / sizeof(processes[0]);
-    avgtime(processes, n);
-    tempoMedioSorteio(processes, n);
+    fifo_avgtime(processes, n);
+    lottery_avgtime(processes, n);
+    do{
+        printf("Bem vindo ao FAKE OS\n");
+    }
     return 0;
 }
