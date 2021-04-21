@@ -3,6 +3,7 @@
 
 #include "structure.h"
 #include "FIFO.h"
+#include "sjf.h"
 #include "sorteio.h"
 
 // define como 10 o número máximo de processos que podem existir.
@@ -18,7 +19,8 @@ int main(int argc, char * argv[])
     Process *processes = NULL;
     do
     {
-        printf("\rDigite o número de processos no sistema(ou 0 para finalizar):");
+        printf("\rDigite o número inteiro de processos no sistema(ou 0 para finalizar):");
+        //coleta o número de processos do usuário.
         scanf("%d", &n_processes);
         // verifica se o número de processos a ser alocado excede a capacidade máxima.
         if(n_processes > MAX_PROCESSES)
@@ -31,7 +33,7 @@ int main(int argc, char * argv[])
         {
             printf("O número digitado é inválido, tente novamente.\n");
         }
-        if(n_processes == 0)
+        else if(n_processes == 0)
         {
             printf("Obrigado\n");
             return 0;
@@ -39,14 +41,16 @@ int main(int argc, char * argv[])
         // caso tudo esteja ok, é possível prosseguir no código.
         else
         {
-            float burst_time;
+            int burst_time;
             // aloca dinamicamente a memória necessária para os processos informados.
             processes = malloc(n_processes * sizeof(double));
             printf("Abaixo, digite o tempo de execução(burst) para cada processo.\n");
             for(int i = 0;i < n_processes; i++)
             {
                 printf("\rprocesso[%d] = ", i);
-                scanf("%f", &burst_time);
+                // verifica se o número informado é um inteiro.
+                scanf("%d", &burst_time);
+                // verifica a validade do número de burst informado.
                 if(burst_time > 0)
                 {
                     // define o PID automaticamente em ordem crescente.
@@ -54,9 +58,9 @@ int main(int argc, char * argv[])
                     // verifica se o tempo de burst informado pelo usuário é válido e atribui ao processo.
                     processes[i].burst_time = burst_time;
                 }
+                // se o dado informado pelo usuário é inválido, uma outra iteração é possível.
                 else
                 {
-                    // se o dado informado pelo usuário é inválido, uma outra iteração é possível.
                     printf("Tempo informado inválido, tente novamente.\n");
                     i--;
                 }
@@ -77,6 +81,7 @@ int main(int argc, char * argv[])
                 switch(option)
                 {
                     case 1:
+                        sjf_avgtime(processes, n_processes);
                         break;
                     case 2:
                         fifo_avgtime(processes, n_processes);

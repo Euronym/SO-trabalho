@@ -17,16 +17,16 @@ int lottery_avgtime(Process processes[], int n)
     //função para achar o tempo de turn around para cada processo.
     lottery_turnaroundtime(shuffled_array, n, wait_time, tat);
     //exibe os detalhes de cada processo.
-    printf("PID  Burst   Waiting Turn around \n");
+    printf("PID    Burst    Waiting    Turn around \n");
     // realiza as somas para calcular as médias do tempo de espera e de turn around.
     for(i = 0; i < n; i++)
     {
        total_wt = total_wt + wait_time[i];
        total_tat = total_tat + tat[i];
-       printf(" %d\t  %d\t\t %d \t%d\n", shuffled_array[i].proc_id, shuffled_array[i].burst_time, wait_time[i], tat[i]);
+       printf(" %d\t%d\t  %d\t\t%d\n", shuffled_array[i].proc_id, shuffled_array[i].burst_time, wait_time[i], tat[i]);
     }
-    printf("Average waiting time = %f\n", (float)total_wt / (float)n);
-    printf("Average turn around time = %f\n", (float)total_tat / (float)n);
+    printf("\x1b[31mAverage wait time: %.3f\n\x1b[33mAverage turn around time: %.3f\x1b[0m\n",
+    (float)total_wt/ (float)n , (float)total_tat/ (float)n);
     return 0;
 }
 // função para trocar dois processos de lugar na fila (funciona de maneira aleatória).

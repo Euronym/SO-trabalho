@@ -35,16 +35,16 @@ int fifo_avgtime(Process processes[], int n)
    //calcula o tempo de resposta de todos os processos.
    fifo_turnaroundtime(processes, n, wait_time, tat);
    //exibe as informações obtidas.
-   printf("PID  Burst   Waiting Turn around \n");
+   printf("PID    Burst   Waiting   Turn around \n");
    //calcula o tempo total de espera e de resposta
    for (int i = 0; i < n;i++)
    {
       total_wt = total_wt + wait_time[i];
       total_tat = total_tat + tat[i];
-      printf(" %d\t  %d\t\t %d \t%d\n", i+1, processes[i].burst_time, wait_time[i], tat[i]);
+      printf(" %d\t%d\t  %d\t\t%d\n", i+1, processes[i].burst_time, wait_time[i], tat[i]);
    }
    // exibe as médias dos tempos totais obtidos anteriormente.
-   printf("Average waiting time = %f\n", (float)total_wt / (float)n);
-   printf("Average turn around time = %f\n", (float)total_tat / (float)n);
+   printf("\x1b[31mAverage wait time: %.3f\n\x1b[33mAverage turn around time: %.3f\x1b[0m\n",
+   (float)total_wt / (float)n, (float)total_tat/(float)n);
    return 0;
 }
