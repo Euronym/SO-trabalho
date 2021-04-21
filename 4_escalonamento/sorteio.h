@@ -7,7 +7,7 @@ int lottery_waitingtime(Process processes[], Process shuffled_array[], int n, in
 int lottery_turnaroundtime(Process shuffled_array[], int n , int wait_time[], int tat[]);
 void swap(Process *a, Process *b);
 
-int lottery_avgtime(Process processes[], int n);
+int lottery_avgtime(Process processes[], int n)
 {
     int wait_time[n], tat[n], total_wt = 0, total_tat = 0;
     // cria uma array para armazenar os elementos sorteados.
