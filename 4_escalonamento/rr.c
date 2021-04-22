@@ -7,18 +7,18 @@
 #define MAX_PROCESS 10
 
 // Cálculo das médias de escalonamento //
-void rr_avgtime(Process[], int[], int[], int[]);
+void rr_avgtime(Process[], int[], int[]);
 // Definição do tempo de vida de cada processo //
-int rr_turnaroundtime(Process[], int[], int tat[]);
-// Definição do tempo de espera de cada process //
-int rr_waitingtime(int[], int[]);
+int rr_turnaroundtime(Process[], int[], int [], int[], int[]);
+// Definição do tempo de espera de cada processo //
+int rr_waitingtime(Process[], int[], int[], int[], int[]);
 
 int main () {
 	// Todos os processos no sistema operacional //
 	Process processes[MAX_PROCESS];
-	// Quantidade de processos no buffer //
-	int wait_time[MAX_PROCESS], tat[MAX_PROCESS];
-	// Array de Burst_times //
+	// Tempo de chegado do process //
+	int arrival_time[MAX_PROCESS];	
+	// Array de bursts times //
 	int remaind_time[MAX_PROCESS];
 
 	// Define aleatoriamente Burst Time, e incrementa um PID //
@@ -27,19 +27,32 @@ int main () {
 		processes[i].proc_id = i;
 	}
 
+	for (int i = 0; i < MAX_PROCESS; i++) {
+		arrival_time[i] = i;
+	}
+
 	// Inicializa um array de burst times //
 	for (int i = 0; i < MAX_PROCESS; i++) {
 		remaind_time[i] = processes[i].burst_time;
 	}
 
-	rr_avgtime(processes, wait_time, tat, remaind_time);
+	rr_avgtime(processes, remaind_time, arrival_time);
 	return 0;
 }
 
-void rr_avgtime(Process processes[], int wait_time[], int tat[], int remaind_time[]) {
+void rr_avgtime(Process processes[], int remaind_time[], int arrival_time[]) {
+	// Tempo total de um processo no escalonador //
+	int turn_time[MAX_PROCESS];
+	// Tempo de espera para cada process //
+	int wait_time[MAX_PROCESS];
+	// Tempo de vida de cada process //
+	int tat[MAX_PROCESS];
+	// Resultado total de algumas métricas //
 	float total_wt, total_tat = 0;
-	rr_waitingtime(remaind_time, wait_time);
-	rr_turnaroundtime(processes, wait_time, tat);
+
+	rr_waitingtime(processes, remaind_time, wait_time, arrival_time, turn_time);
+	rr_turnaroundtime(processes, wait_time, tat, arrival_time, turn_time);
+
 	for (int i = 0; i < MAX_PROCESS; i++) {
 		total_wt += wait_time[i];
 		total_tat += tat[i];
@@ -55,76 +68,56 @@ void rr_avgtime(Process processes[], int wait_time[], int tat[], int remaind_tim
 }
 
 
-int rr_turnaroundtime(Process processes[], int wait_time[], int tat[]) {
+int rr_turnaroundtime(Process processes[], int wait_time[], int tat[], int arrival_time[], int turn_time[]) {	
+	/*Realiza o cálculo do turnAT tendo como parâmetro o tempo total de cada
+	* processo e o tempo de chegado do processo 
+	*/
 	for (int i = 0; i < MAX_PROCESS; i++) {
-		tat[i] = wait_time[i] + processes[i].burst_time;
+		tat[i] = turn_time[i] - arrival_time[i];
 	}
 	return 0;
 }
-int rr_waitingtime(int remaind_time[], int wait_time[]) {
 
-	struct Node_process {
-		int value;
-		int preview;
-		int next;
-	};
+int rr_waitingtime(Process processes[], int remaind_time[], int wait_time[], int arrival_time[], int turn_time[]) {
+	// Variável contadora e uma variável sentinela //
+	int i, done_condition;
+	// Número de processos no escalonador //
+	int buffer_process = MAX_PROCESS;
+	int total_time;
 
-	Node_process all_bursts[MAX_PROCESS];
-
-	// TODO Certamente uma lista a rigor terá de ser implementada //
-	
-	/* FIXME a pseudo-lista não funcionou devido ao problema de referências
-	 * Pois, parti do pressuposto que poderia ser efetuado com algumas característica
-	 * desejáveis, ocultando outras.
-	 * Basicamente, o problema reside na retirada de uma nodo da lista,
-	 * traduzindo para a situação um processo já finalizado
-	 */
- 	
-	// Inicializa as devidas referências para uma pseudo-lista //
-	for (int i = 1 ; i < MAX_PROCESS-1; i ++) {
-		if ( i == 0) {
-			all_bursts[0].value = remaind_time[0];
-			all_bursts[0].preview = remaind_time[MAX_PROCESS - 1];
-			all_bursts[0].next = remaind_time[1];
-		} if ( i == MAX_PROCESS - 1) {
-			all_bursts[MAX_PROCESS - 1].atual = remaind_time[MAX_PROCESS - 1];
-			all_bursts[MAX_PROCESS - 1].preview = remaind_time[MAX_PROCESS -2];
-			all_bursts[MAX_PROCESS - 1].next = remaind_time[0];
+	for (total_time = 0, i = 0; buffer_process != 0; ) {
+		/* Se o tempo restante de execução é menor que que o TIME_SLICE
+		* então o processo será finalizado nesse ciclo
+		*/
+		if (remaind_time[i] <= TIME_SLICE && remaind_time[i] > 0) {
+			total_time += remaind_time[i];
+			remaind_time[i] = 0;
+			done_condition = 1;
+		// Senão tempo restante é decrementado em um TIME_SLICE //
+		} else if (remaind_time[i] > 0) {
+			remaind_time[i] -= TIME_SLICE;
+			total_time += TIME_SLICE;
 		}
-		all_bursts[i].atual = remaind_time[i];
-		all_bursts[i].next = remaind_time[i+1];
-		all_bursts[i].preview = remaind_time[i-1];
-	}
-	
-	// Inicializa o wait time do primeiro processo //
-	wait_time[0] = 0;
-	int done_condition = 0;
-	while (done_condition < MAX_PROCESS);
-		for (int i = 0; i < MAX_PROCESS; i++) {
-			// verifica se todos os processos foram concluídos //
-			if (all_bursts[i].atual == 0) {
-				done_condition++;
-				continue;
-			}
-
-			/* Verifica se o time slice é maior do que o tempo restante de burst 
-			* se for, o processo será concluido nesse ciclo.
-			*/
-			if (TIME_SLICE >= all_bursts[i].atual.value) {
-				wait_time[i+1] = all_bursts[i].atual;
-				all_bursts[i].preview = all_burst[i].next;
-				all_bursts[i].next = all_burst[i].preview;
-				all_bursts[i].value = 0;
-			/* se não for, o tempo de burst é decrementado na quantidade de um 
-			* time slice
-			*/
-			} else {
-				all_bursts[i].value -= TIME_SLICE;
-				wait_time[i+1] = TIME_SLICE;
-			}
-		done_condition--;
+		// Verifica se o processo foi finalizado //
+		if (remaind_time[i] == 0 && done_condition == 1) {
+			buffer_process--;
+			turn_time[i] = total_time; 
+			wait_time[i] = total_time - processes[i].burst_time - arrival_time[i];
+			done_condition = 0;
+		// Se i é igual ao número de processos-1, então o ciclo de exucução finaliza //
+		}
+		
+		if ( i == MAX_PROCESS - 1) {
+			i = 0;	
+		/* Se o tempo de chegada do próximo processo é menor que o tempo de execução do
+		*  atual, então aquele processo será escalonado 
+		*/
+		} else if ( arrival_time[i + 1] <= total_time ) {
+			i++;
+		} else {
+			i = 0;
+		}
 	}
 
-	
 	return 0;
 }
