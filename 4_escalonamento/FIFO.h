@@ -41,7 +41,7 @@ int fifo_avgtime(Process processes[], int n)
    {
       total_wt = total_wt + wait_time[i];
       total_tat = total_tat + tat[i];
-      printf(" %d\t%d\t  %d\t\t%d\n", i+1, processes[i].burst_time, wait_time[i], tat[i]);
+      printf(" %d\t%d\t  %d\t\t%d\n", processes[i].proc_id, processes[i].burst_time, wait_time[i], tat[i]);
    }
    // exibe as médias dos tempos totais obtidos anteriormente.
    printf("\x1b[31mAverage wait time: %.3f\n\x1b[33mAverage turn around time: %.3f\x1b[0m\n",
