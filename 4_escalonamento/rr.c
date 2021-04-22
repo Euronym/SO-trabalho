@@ -62,42 +62,69 @@ int rr_turnaroundtime(Process processes[], int wait_time[], int tat[]) {
 	return 0;
 }
 int rr_waitingtime(int remaind_time[], int wait_time[]) {
-	// Variável contadora de processos concluídos //
-	int done_condition;
-	wait_time[MAX_PROCESS - 1] = 0;
-	// Se a done_conditon atingir 10, todos os processos foram concluídos //
-	while (done_condition < MAX_PROCESS) {
+
+	struct Node_process {
+		int value;
+		int preview;
+		int next;
+	};
+
+	Node_process all_bursts[MAX_PROCESS];
+
+	// TODO Certamente uma lista a rigor terá de ser implementada //
+	
+	/* FIXME a pseudo-lista não funcionou devido ao problema de referências
+	 * Pois, parti do pressuposto que poderia ser efetuado com algumas característica
+	 * desejáveis, ocultando outras.
+	 * Basicamente, o problema reside na retirada de uma nodo da lista,
+	 * traduzindo para a situação um processo já finalizado
+	 */
+ 	
+	// Inicializa as devidas referências para uma pseudo-lista //
+	for (int i = 1 ; i < MAX_PROCESS-1; i ++) {
+		if ( i == 0) {
+			all_bursts[0].value = remaind_time[0];
+			all_bursts[0].preview = remaind_time[MAX_PROCESS - 1];
+			all_bursts[0].next = remaind_time[1];
+		} if ( i == MAX_PROCESS - 1) {
+			all_bursts[MAX_PROCESS - 1].atual = remaind_time[MAX_PROCESS - 1];
+			all_bursts[MAX_PROCESS - 1].preview = remaind_time[MAX_PROCESS -2];
+			all_bursts[MAX_PROCESS - 1].next = remaind_time[0];
+		}
+		all_bursts[i].atual = remaind_time[i];
+		all_bursts[i].next = remaind_time[i+1];
+		all_bursts[i].preview = remaind_time[i-1];
+	}
+	
+	// Inicializa o wait time do primeiro processo //
+	wait_time[0] = 0;
+	int done_condition = 0;
+	while (done_condition < MAX_PROCESS);
 		for (int i = 0; i < MAX_PROCESS; i++) {
-			// Verifica se o processo na posição i do array foi concluído //
-			if ( remaind_time[i] == 0 ) {
+			// verifica se todos os processos foram concluídos //
+			if (all_bursts[i].atual == 0) {
 				done_condition++;
 				continue;
-			// Do contrário é decrementado 1 da variável contadora //
-			}  else if ( done_condition > 0 ) {
-				done_condition--;
 			}
 
-			/* Como se trata de um escalonamento em círculo,
-			 * é necessário levar em consideração o wait_time
-			 * do último processo no estado de execução.
+			/* Verifica se o time slice é maior do que o tempo restante de burst 
+			* se for, o processo será concluido nesse ciclo.
 			*/
-			if ( i == 0 )
-				wait_time[i] = wait_time[MAX_PROCESS-1];
-			else
-				wait_time[i] = wait_time[i-1] + TIME_SLICE;
-
-			// Se o burst time restante é maior que o TIME_SLICE,
-			// o burst time atual é decrementado
-			if ( remaind_time[i] >= TIME_SLICE ) {
-				remaind_time[i] -= TIME_SLICE;
-			// Senão o burst time restante será 0, ou seja, o processo,
-			// conseguirá ser finalizado neste ciclo
+			if (TIME_SLICE >= all_bursts[i].atual.value) {
+				wait_time[i+1] = all_bursts[i].atual;
+				all_bursts[i].preview = all_burst[i].next;
+				all_bursts[i].next = all_burst[i].preview;
+				all_bursts[i].value = 0;
+			/* se não for, o tempo de burst é decrementado na quantidade de um 
+			* time slice
+			*/
 			} else {
-				if ( i == 0 )
-				wait_time[i] = wait_time[i-1] + remaind_time[i];
-				remaind_time[i] = 0;
+				all_bursts[i].value -= TIME_SLICE;
+				wait_time[i+1] = TIME_SLICE;
 			}
-		}
+		done_condition--;
 	}
+
+	
 	return 0;
 }
