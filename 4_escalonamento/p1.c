@@ -54,7 +54,7 @@ int main(int argc, char * argv[])
                 if(burst_time > 0)
                 {
                     // define o PID automaticamente em ordem crescente.
-                    processes[i].proc_id = i + 1;
+                    processes[i].proc_id = i;
                     // verifica se o tempo de burst informado pelo usuário é válido e atribui ao processo.
                     processes[i].burst_time = burst_time;
                 }
