@@ -6,7 +6,6 @@
 #include <string.h> // biblioteca para concatenação de arquivos.
 #include <dirent.h>
 
-
 int main(int argc, char *argv[])//parâmetros para leitura de linha.
 {
 	struct dirent *sd;
@@ -36,7 +35,7 @@ int main(int argc, char *argv[])//parâmetros para leitura de linha.
 		strcat(aux_char, aux_string);
 		int teste = rename(sd->d_name, aux_char);
 		printf("Novo nome de arquivo[%d]: %s\n", cont,sd->d_name);
-	}	
+	}
 	closedir(diretorio);// fecha o diretório ao final do programa.
 	return 0;
 }

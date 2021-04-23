@@ -4,8 +4,6 @@
 #include "structure.h"
 #include "bubble_sort.h"
 
-#define MAX_PROCESS 10
-
 // Cálculo da média das métricas de escalonamento //
 void sjf_avgtime(Process[], int);
 // Definição do tempo de espera de cada processo //

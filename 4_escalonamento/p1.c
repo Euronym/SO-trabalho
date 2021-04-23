@@ -79,7 +79,7 @@ int main(int argc, char * argv[])
                 // variável a ser utilizada em abordagens preemptivas de algoritmo.
                 int quantum;
                 printf("==========================================\n"
-                "Shortest job first(SJB): digite 1\n"
+                "Shortest job first(SJF): digite 1\n"
                 "First in first out(FIFO): digite 2\n"
                 "Lottery scheduling: digite 3\n"
                 "Round Robin: digite 4\n"
