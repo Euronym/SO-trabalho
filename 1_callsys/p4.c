@@ -12,12 +12,10 @@
 void to_hash(char *, char *);
 
 int main(int argc, char **argv) {
-	char *salt, *password, *encrypt, *confirm_pass;
-	size_t len;
 	
+	char *salt, *encrypt, *password, *confirm_pass;
 	password = malloc(MAX_LEN);
 	confirm_pass = malloc(MAX_LEN);
-
 	printf("Digite a nova senha: ");
 	if (fgets(password, MAX_LEN, stdin) == NULL)
 		exit(EXIT_FAILURE);
@@ -37,10 +35,10 @@ int main(int argc, char **argv) {
 
 void to_hash(char *encrypted, char argv[]) {
 	struct spwd *password_info;
-	
 	password_info = malloc(1024 * sizeof(char));
 	password_info = getspnam(argv);
-	password_info.sp_pwdp = encrypted;	
+	password_info->sp_pwdp = encrypted;
 }
+
 
 
