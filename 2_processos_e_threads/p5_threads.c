@@ -27,7 +27,7 @@ int main() {
 	pthread_create(&sort_thread,0, bubble_sort,0); // Cria uma thread para ordenação //
 	pthread_create(&printer_thread,0, mostrar_vetor,0); //Cria uma thread para mostrar o vetor ordenado //
 	pthread_join(sort_thread, 0); // Espera a execução da thread de ordenação //
-	pthread_join(printer_thread, 0); // Espera a ordenação da thread que mostra o vetor ordenado //
+	pthread_join(printer_thread, 0); // Espera a execução da thread que mostra o vetor ordenado //
 	pthread_mutex_destroy(&mutex);
 	sem_destroy(&sort_condition);
 	return 0;
