@@ -2,9 +2,13 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Cálculo das médias de escalonamento //
 int lottery_avgtime(Process processes[], int n);
+// Definição do tempo de espera de cada processo //
 int lottery_waitingtime(Process processes[], Process shuffled_array[], int n, int wait_time[]);
+// Definição do tempo de vida de cada processo //
 int lottery_turnaroundtime(Process shuffled_array[], int n , int wait_time[], int tat[]);
+// procedimento para realizar a troca de posições entre dois processos na array //
 void swap(Process *a, Process *b);
 
 int lottery_avgtime(Process processes[], int n)

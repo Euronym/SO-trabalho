@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// inclui o header necessário para a criação de processos.
 #include "structure.h"
+// header que contém o algoritmo para FIFO
 #include "FIFO.h"
+// header que contém o algoritmo para rr
+#include "rr.h"
+// header que contém o algoritmo para sjf
 #include "sjf.h"
+// header que contém o algoritmo para sorteio.
 #include "sorteio.h"
 
 // define como 10 o número máximo de processos que podem existir.
@@ -35,7 +41,7 @@ int main(int argc, char * argv[])
         }
         else if(n_processes == 0)
         {
-            printf("Obrigado\n");
+            printf("Obrigado!\n");
             return 0;
         }
         // caso tudo esteja ok, é possível prosseguir no código.
@@ -70,8 +76,10 @@ int main(int argc, char * argv[])
             printf("Por fim, precisamos saber qual algoritmo você gostaria de simular.\n");
             do
             {
+                // variável a ser utilizada em abordagens preemptivas de algoritmo.
+                int quantum;
                 printf("==========================================\n"
-                "Shortest job first(SJB): digite 1\n"
+                "Shortest job first(SJF): digite 1\n"
                 "First in first out(FIFO): digite 2\n"
                 "Lottery scheduling: digite 3\n"
                 "Round Robin: digite 4\n"
@@ -90,17 +98,20 @@ int main(int argc, char * argv[])
                         lottery_avgtime(processes, n_processes);
                         break;
                     case 4:
+                        printf("\rDefina o quantum(inteiro) a ser considerado: ");
+                        scanf("%d", &quantum);
+                        rr_avgtime(processes, n_processes, quantum);
                         break;
                     case 0:
                         printf("Obrigado!\n");
-                        free(processes);
-                        return 0;
+                        break;
                     default:
                         printf("Opção inválida, tente novamente.\n");
                 }
             }while (option != 0);
         }
     }while(TRUE);
-
+    // libera a memória previamente alocada pelo malloc ao final do programa.
+        free(processes);
     return 0;
 }

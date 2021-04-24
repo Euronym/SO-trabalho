@@ -9,12 +9,11 @@
 // Realiza a escrita da hash gerada no arquivo /etc/shadow //
 void write_hash(char *);
 
-int main() {
-	char *salt, *password, *encrypt, *confirm_pass;
+int main(int argc, char **argv) {
 	
+	char *salt, *encrypt, *password, *confirm_pass;
 	password = malloc(MAX_LEN);
 	confirm_pass = malloc(MAX_LEN);
-
 	printf("Digite a nova senha: ");
 	if (fgets(password, MAX_LEN, stdin) == NULL)
 		exit(EXIT_FAILURE);
@@ -64,5 +63,3 @@ void write_hash(char *encrypted) {
 	putspent(&password_info, fake_shadow);
 	fclose(fake_shadow);
 }
-
-

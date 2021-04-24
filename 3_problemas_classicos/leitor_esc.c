@@ -26,16 +26,19 @@ int main(int argc, char * argv[])
     int a[MAX_READERS];
     sem_init(&db, 0, 1); // inicializa o semáforo para controle do banco em 1.
     pthread_mutex_init(&rSem, 0); // inicializa o mutex para controle do rc.
+    // inicializa as threads dos leitores.
     for(int i = 0;i < MAX_READERS;i++)
     {
         a[i] = i;
         pthread_create(&rd[i], 0, (void*)reader, (void*)&a[i]);
     }
+    // inicializa as threads dos escritores.
     for(int i = 0;i < MAX_WRITERS;i++)
     {
         a[i] = i;
         pthread_create(&wt[i], 0 , (void*)writer, (void*)&a[i]);
     }
+    // aguarda a execução das threads criadas.
     for(int i = 0;i < MAX_READERS;i++)
         pthread_join(rd[i], 0);
     for(int i = 0;i < MAX_WRITERS;i++)
@@ -56,12 +59,12 @@ void *reader(void * pno)
     {
         sem_wait(&db); // o primeiro leitor obtém acesso ao recurso e permite aos seguintes a utilização.
     }
-    pthread_mutex_unlock(&rSem);
+    pthread_mutex_unlock(&rSem); // deixa a zona crítica.
     printf("reader %d is using the database\n", numReader);
     printf("current value of data: %d\n", data);
-    pthread_mutex_lock(&rSem);
+    pthread_mutex_lock(&rSem); // entra na zona crítica.
     printf("reader %d left the database\n", numReader); // sinaliza que um dos leitores deixou a base de dados.
-    rc--;
+    rc--; // decrementa o contador responsável por marcar o número de leitores acessando o recurso.
     if(rc == 0)
     {
         sem_post(&db);// fornece acesso ao escritor quando todos os leitores estão fora.
