@@ -10,7 +10,6 @@ void mostrar_vetor(int []);
 void bubble_sort(int []);
 
 int main(int argc, char *argv[], char *envp[]) {
-    clock_t begin = clock(); // calcula o número de ciclos de clock envolvidos na execução.
 
     int fd[2]; // file descriptor para o pipe //
     int pid;
@@ -26,13 +25,19 @@ int main(int argc, char *argv[], char *envp[]) {
         exit(0);
     } else {
         if ( pid > 0 ) {
-           // É necessário escrever o vetor no pipe, então é fechado a leitura //
+            // calcula o número de ciclos de clock envolvidos na execução.
+            clock_t begin = clock();
+            // É necessário escrever o vetor no pipe, então é fechado a leitura //
             close(fd[0]);
             int numeros[BUFFER] = {3, 1, 0, 19, 9, 4, 8, 13, 7}; // Vetor que integra o processo pai //
             // Escreve o vetor no pipe //
             write(fd[1], numeros, sizeof(numeros));
+            clock_t end = clock();
+            double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+            printf("Tempo de execução para o primeiro processo: %fs\n",time_spent);
             exit(0);
         } else {
+            clock_t begin = clock(); // calcula o número de ciclos de clock envolvidos na execução.
             // Vetor a ser ordenando //
             int numeros_filho[BUFFER];
             // É necessário ler o pipe, então a escrita é fechada //
@@ -41,12 +46,11 @@ int main(int argc, char *argv[], char *envp[]) {
             read(fd[0], numeros_filho, sizeof(numeros_filho));
             // Ordena os elementos do vetor //
             bubble_sort(numeros_filho);
+            clock_t end = clock();
+            double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+            printf("Tempo de execução para o segundo processo: %fs\n",time_spent);
         }
     }
-    clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Tempo de execução: %f\n",time_spent);
-
     exit(0);
 }
 
