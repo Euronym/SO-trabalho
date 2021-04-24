@@ -8,7 +8,7 @@
 
 #define NUMBER_THREADS 2
 
-// Algoritmo de ordenação bubble_sort //
+// procedimento que implementa o algoritmo de ordenação bubble_sort //
 void *bubble_sort();
 // Procedimento que mostra os vetores ordenados na saída padrão //
 void *mostrar_vetor();
@@ -18,18 +18,16 @@ pthread_mutex_t mutex;
 // Condição, utilizando semáforo, para a sincronização das threads //
 sem_t sort_condition;
 
-// Arrays de inteiros para ordenação //
-int numeros[BUFFER] = {9, 3, 2, 5, 1, 0, 4, 7, 6};
+int numeros[BUFFER] = {9, 3, 2, 5, 1, 0, 4, 7, 6}; // Arrays de inteiros para ordenação //
 
 int main() {
-	long sort_thread, printer_thread, t;
-	pthread_t b_s, m_v;
+	pthread_t sort_thread, printer_thread;
 	pthread_mutex_init(&mutex, 0);
 	printf("\x1b[31mCriando uma thread para ordenação.\x1b[0m\n");
-	pthread_create(&b_s,0, bubble_sort,0);
-	pthread_create(&m_v,0, mostrar_vetor,0);
-	pthread_join(b_s, 0);
-	pthread_join(m_v, 0);
+	pthread_create(&sort_thread,0, bubble_sort,0); // Cria uma thread para ordenação //
+	pthread_create(&printer_thread,0, mostrar_vetor,0); //Cria uma thread para mostrar o vetor ordenado //
+	pthread_join(sort_thread, 0); // Espera a execução da thread de ordenação //
+	pthread_join(printer_thread, 0); // Espera a ordenação da thread que mostra o vetor ordenado //
 	pthread_mutex_destroy(&mutex);
 	sem_destroy(&sort_condition);
 	return 0;
@@ -47,20 +45,19 @@ void *bubble_sort() {
 			}
 		}
 	}
-	// Emite um sinal para a thread que realizará o mostrar_vetor() //
-	sem_post(&sort_condition);
-	pthread_mutex_unlock(&mutex);
+	sem_post(&sort_condition); // Emite um sinal para a thread mostrar_vetor() //
+	pthread_mutex_unlock(&mutex); // libera o recurso //
 	pthread_exit(0);
 }
 
 void *mostrar_vetor() {
-	pthread_mutex_trylock(&mutex);
-	sem_wait(&sort_condition);
+	pthread_mutex_trylock(&mutex); // Tenta o acesso ao recurso //
+	sem_wait(&sort_condition); // Espera o sinal da thread de ordenação //
 	printf("=== Vetor ordenado! ===\n");
 	for (int k = 0; k < BUFFER; k++)
 		printf("|%d|", numeros[k]);
 	printf("\n");
-	pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(&mutex); // libera o recurso //
 	pthread_exit(0);
 }
 
