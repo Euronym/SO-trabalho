@@ -74,9 +74,7 @@ int main()
     	sem_init(&condB, 0, 0);
 
    	pthread_create(&tA,0,printA,0);
-
    	pthread_create(&tB,0,printB,0);
-
    	pthread_create(&tC,0,printC,0);
 
     	pthread_join(tA, 0); //espera execução da thread com id = tA (que imprime A)
