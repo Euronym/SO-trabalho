@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <sched.h>
 #include <semaphore.h>
 
 // Quantidade de números no array //
@@ -23,8 +22,8 @@ int numeros[BUFFER] = {9, 3, 2, 5, 1, 0, 4, 7, 6}; // Arrays de inteiros para or
 
 int main() 
 {
-    // inicia a contagem dos ciclos de clock necessários para o processo.
-    clock_t begin = clock();
+    	// inicia a contagem dos ciclos de clock necessários para o processo.
+    	clock_t begin = clock();
 
 	pthread_t sort_thread, printer_thread;
 	pthread_mutex_init(&mutex, 0);
@@ -38,12 +37,12 @@ int main()
 	pthread_join(printer_thread, 0); // Espera a execução da thread que mostra o vetor ordenado //
 	pthread_mutex_destroy(&mutex);
 	sem_destroy(&sort_condition);
-    // finaliza a contagem dos ciclos.
-    clock_t end = clock();
-    // após obter o número de ciclos envolvidos na execução,//
-    //divide pelo número de ciclos por segundo para obter o tempo//
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Tempo de execução: %fs\n",time_spent);
+    	// finaliza a contagem dos ciclos.
+    	clock_t end = clock();
+    	// após obter o número de ciclos envolvidos na execução,//
+   	//divide pelo número de ciclos por segundo para obter o tempo//
+    	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    	printf("Tempo de execução: %fs\n",time_spent);
 
 	return 0;
 }
