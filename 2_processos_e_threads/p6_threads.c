@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <sched.h>
 #include <semaphore.h>
 
 // Quantidade de números no array //
@@ -18,14 +19,19 @@ pthread_mutex_t mutex;
 // Condição, utilizando semáforo, para a sincronização das threads //
 sem_t sort_condition;
 
+// cria uma flag para a sincronização das threads.
+int cont = 0;
+
 int numeros[BUFFER] = {9, 3, 2, 5, 1, 0, 4, 7, 6}; // Arrays de inteiros para ordenação //
 
-int main() {
+int main() 
+{
     // inicia a contagem dos ciclos de clock necessários para o processo.
     clock_t begin = clock();
 
 	pthread_t sort_thread, printer_thread;
 	pthread_mutex_init(&mutex, 0);
+	sem_init(&sort_condition, 0 ,0);
 	printf("\x1b[31mCriando uma thread para ordenação.\x1b[0m\n");
 
 	pthread_create(&sort_thread,0, bubble_sort,0); // Cria uma thread para ordenação //
@@ -45,30 +51,51 @@ int main() {
 	return 0;
 }
 
-void *bubble_sort() {
+void *bubble_sort() 
+{
 	pthread_mutex_lock(&mutex);
 	int aux = 0;
-	for (int i = 0 ; i < BUFFER - 1; i++ ) {
-		for (int j = 0; j < BUFFER - 1; j++) {
-			if ( numeros[j] > numeros[j+1] ) {
+	for (int i = 0 ; i < BUFFER - 1; i++ ) 
+	{
+		for (int j = 0; j < BUFFER - 1; j++) 
+		{
+			if ( numeros[j] > numeros[j+1] ) 
+			{
 				aux = numeros[j];
 				numeros[j] = numeros[j+1];
 				numeros[j+1] = aux;
 			}
 		}
 	}
+	cont++;
 	sem_post(&sort_condition); // Emite um sinal para a thread mostrar_vetor() //
 	pthread_mutex_unlock(&mutex); // libera o recurso //
 	pthread_exit(0);
 }
 
-void *mostrar_vetor() {
-	pthread_mutex_trylock(&mutex); // Tenta o acesso ao recurso //
-	sem_wait(&sort_condition); // Espera o sinal da thread de ordenação //
-	printf("=== Vetor ordenado! ===\n");
-	for (int k = 0; k < BUFFER; k++)
-		printf("|%d|", numeros[k]);
-	printf("\n");
-	pthread_mutex_unlock(&mutex); // libera o recurso //
-	pthread_exit(0);
+void *mostrar_vetor() 
+{
+	while(1)
+	{
+		pthread_mutex_trylock(&mutex); // Tenta o acesso ao recurso //
+		// verifica a flag passando a vez em caso de não poder executar//	
+		if(cont == 0)
+		{
+			pthread_mutex_unlock(&mutex); // deixa a zona crítica.
+			sched_yield(); // passa a vez.
+		}
+		else
+		{
+			sem_wait(&sort_condition); // Espera o sinal da thread de ordenação //
+			printf("=== Vetor ordenado! ===\n");
+			for (int k = 0; k < BUFFER; k++)
+			{
+				printf("|%d|", numeros[k]);
+			}
+			printf("\n");
+			pthread_mutex_unlock(&mutex); // libera o recurso //
+			break;
+		}
+	}
+		pthread_exit(0);
 }
