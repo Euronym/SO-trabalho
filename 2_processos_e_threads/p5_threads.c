@@ -18,9 +18,6 @@ pthread_mutex_t mutex;
 // Condição, utilizando semáforo, para a sincronização das threads //
 sem_t sort_condition;
 
-// cria uma flag para a sincronização das threads.
-int cont = 0;
-
 int numeros[BUFFER] = {9, 3, 2, 5, 1, 0, 4, 7, 6}; // Arrays de inteiros para ordenação //
 
 int main() {
@@ -53,7 +50,6 @@ void *bubble_sort()
 			}
 		}
 	}
-	cont++;
 	sem_post(&sort_condition); // Emite um sinal para a thread mostrar_vetor() //
 	pthread_mutex_unlock(&mutex); // libera o recurso //
 	pthread_exit(0);
@@ -61,25 +57,15 @@ void *bubble_sort()
 
 void *mostrar_vetor() 
 {
-	while(1)
-	{
-		pthread_mutex_trylock(&mutex); // Tenta o acesso ao recurso //
-		if(cont == 0)
-		{
-			pthread_mutex_unlock(&mutex);
-			sched_yield();
-		}
-		else
-		{
-			sem_wait(&sort_condition); // Espera o sinal da thread de ordenação //
-			printf("=== Vetor ordenado! ===\n");
-			for (int k = 0; k < BUFFER; k++)
-				printf("|%d|", numeros[k]);
-			printf("\n");
-			pthread_mutex_unlock(&mutex); // libera o recurso //
-			break;
-		}
-	}
+	sem_wait(&sort_condition); // Espera o sinal da thread de ordenação //	
+	pthread_mutex_lock(&mutex); // Tenta o acesso ao recurso //
+
+	printf("=== Vetor ordenado! ===\n");
+	for (int k = 0; k < BUFFER; k++)
+		printf("|%d|", numeros[k]);
+	printf("\n");
+	pthread_mutex_unlock(&mutex); // libera o recurso //
+	
 	pthread_exit(0);
 }
 
