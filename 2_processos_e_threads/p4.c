@@ -61,8 +61,8 @@ void* printC()
 		// se c ainda não estiver na vez, cede a vez.
 		if(cont != 3)
 		{
-	    	sched_yield();
-	    	pthread_mutex_unlock(&o_mutex);
+	    		sched_yield();
+	    		pthread_mutex_unlock(&o_mutex);
 		}
 		else
 		{
@@ -81,20 +81,20 @@ int main()
 	pthread_t tA, tB, tC;
 
 	pthread_mutex_init(&o_mutex,0); // inicializa o mutex.
-    sem_init(&condA, 0, 0);
-    sem_init(&condB, 0, 0);
+	sem_init(&condA, 0, 0);
+    	sem_init(&condB, 0, 0);
 
    	pthread_create(&tA,0,printA,0);
    	pthread_create(&tB,0,printB,0);
    	pthread_create(&tC,0,printC,0);
 
-    pthread_join(tA, 0); //espera execução da thread com id = tA (que imprime A)
+    	pthread_join(tA, 0); //espera execução da thread com id = tA (que imprime A)
 	pthread_join(tB, 0); // espera a execução da thread com id = TB
 	pthread_join(tC, 0); // espera a execução da thread com id = TC
 
 	sem_destroy(&condA); // destroi a variavel de condicao A.
-    sem_destroy(&condB); // destroi a variavel de condicao B.
-    pthread_mutex_destroy(&o_mutex); // destroi o mutex.
+    	sem_destroy(&condB); // destroi a variavel de condicao B.
+   	pthread_mutex_destroy(&o_mutex); // destroi o mutex.
 
     	return 0;
 }
