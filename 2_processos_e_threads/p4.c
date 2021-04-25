@@ -46,6 +46,7 @@ void* printB()
 
 void* printC()
 {
+<<<<<<< HEAD
 	// aguarda a thread B executar.
 	sem_wait(&condB); 
 	// tenta utilizar o recurso.
@@ -55,12 +56,15 @@ void* printC()
 	pthread_mutex_unlock(&o_mutex); 
 	//finaliza
 	pthread_exit(0);	
+=======
+
 }
 
 int main()
 {
     //definindo as variáveis que armazenarão as ids das threads
 	pthread_t tA, tB, tC;
+<<<<<<< HEAD
 	// inicializa o mutex.
 	pthread_mutex_init(&o_mutex,0); 
 	// inicializa os semáforos
@@ -84,4 +88,6 @@ int main()
     pthread_mutex_destroy(&o_mutex); 
     
     return 0;
+=======
+>>>>>>> 0e95a4934fb9d16496f846afd190a2d0dc56355b
 }
