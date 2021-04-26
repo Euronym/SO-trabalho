@@ -79,6 +79,7 @@ int rr_waitingtime(Process processes[], int remaind_time[], int wait_time[], int
 	int i, done_condition;
 	// Número de processos no escalonador //
 	int buffer_process = MAX_PROCESS;
+	// Tempo total para escalonar um processo //
 	int total_time;
 
 	for (total_time = 0, i = 0; buffer_process != 0; ) {
@@ -100,14 +101,12 @@ int rr_waitingtime(Process processes[], int remaind_time[], int wait_time[], int
 			turn_time[i] = total_time; 
 			wait_time[i] = total_time - processes[i].burst_time;
 			done_condition = 0;
-		// Se i é igual ao número de processos-1, então o ciclo de exucução finaliza //
 		}
 		
+		// Se i é igual ao número de processos-1, então o ciclo de exucução finaliza //
 		if ( i == MAX_PROCESS - 1) {
 			i = 0;	
-		/* Se o tempo de chegada do próximo processo é menor que o tempo de execução do
-		*  atual, então aquele processo será escalonado 
-		*/
+		// Se o tempo total for maior que zero, o processo processo é escalonado //
 		} else if ( total_time >= 0 ) {
 			i++;
 		} else {
