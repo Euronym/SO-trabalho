@@ -8,7 +8,7 @@
 
 - Danilo Ren Nicioka - 201906840035
 
-- Gabriel da Paixão Fernandes - 201906840039
+- Gabriel da Paixão Fernandes - 201906840027
 ------------------------------------------------
 
 ## Algumas instruções
