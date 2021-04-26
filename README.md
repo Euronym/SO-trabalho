@@ -1,4 +1,4 @@
-## Integrantes
+## Integrantes:
 -----------------------------------------------
 - Ângelo Ricardo dos Anjos - 201706840058
 
@@ -11,7 +11,7 @@
 - Gabriel da Paixão Fernandes - 201906840027
 ------------------------------------------------
 
-## Algumas instruções
+## Algumas instruções:
 - Para a tarefa 1:
   - Para o problema que envolve a mudança de senhas de um usuário, o código-fonte deve ser compilado com -lcrypt. ex: p4.c -o p4-bin -lcrypt
 
@@ -22,5 +22,5 @@
   - Não há, os códigos podem ser compilados de maneira convencional
 
 - Para a tarefa 4:
-  - Para o problema que simula um sistema operacional fictício, o código fonte principal chama-se menu.c
-  - Os valores para o teste da simulação deve ser necessiamente um numero inteiro
+  - Para o problema que simula um sistema operacional fictício, o código-fonte principal chama-se menu.c
+  - Os valores para o teste da simulação deve ser necessariamente um número inteiro
