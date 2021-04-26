@@ -61,7 +61,7 @@ void *customer(void *pno)
     if(free_seats > 0)
     {
         printf("Customer %d is waiting in the room\n", numCostumer);
-        // decrementa o número de acentos disponiveis.
+        // decrementa o número de assentos disponiveis.
         free_seats--;
         // notifica o barbeiro que há clientes esperando para serem atendidos.
         sem_post(&customers);
