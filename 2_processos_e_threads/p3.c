@@ -13,7 +13,6 @@
 int main(int argc, char * argv[])
 {
 	pid_t filho_pid = fork(); // cria um processo filho.
-	int status = 0;
 	if(filho_pid < 0) // retorna um valor negativo se a criação falha. 
 	{
 		printf("Erro durante a criação do processo filho!");
