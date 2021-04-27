@@ -13,6 +13,7 @@
 
 ## Algumas instruções:
 - Para a tarefa 1:
+  - O algoritmo de mudança de senha deve ser executado com cuidado, de preferência uma execução com um usuário de teste. 
   - Para o problema que envolve a mudança de senhas de um usuário, o código-fonte deve ser compilado com -lcrypt. ex: p4.c -o p4-bin -lcrypt
 
 - Para a tarefa 2:
