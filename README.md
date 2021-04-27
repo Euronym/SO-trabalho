@@ -19,7 +19,7 @@
   - Para problemas envovendo threads é extremante necessário compilar o código-fonte com -lptread. ex: p5_threads.c -o p5_threads-bin -lpthread 
 
 - Para a tarefa 3:
-  - Não há, os códigos podem ser compilados de maneira convencional
+  - Para problemas envovendo threads é extremante necessário compilar o código-fonte com -lptread. ex: barb_dorm.c -o barb_dorm-bin -lpthread 
 
 - Para a tarefa 4:
   - Para o problema que simula um sistema operacional fictício, o código-fonte principal chama-se menu.c
