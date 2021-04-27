@@ -7,7 +7,8 @@ int fifo_turnaroundtime(Process processes[], int n, int wait_time[], int tat[]);
 // função para calcular a média de tempo.
 int fifo_avgtime(Process processes[], int n);
 
-int fifo_waitingtime(Process processes[], int n, int wait_time[]) {
+int fifo_waitingtime(Process processes[], int n, int wait_time[]) 
+{
    // o primeiro processo não possui tempo de espera associado.
    wait_time[0] = 0;
    // calculating waiting time
