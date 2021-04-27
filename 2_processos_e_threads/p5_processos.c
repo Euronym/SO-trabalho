@@ -40,8 +40,7 @@ int main(int argc, char *argv[], char *envp[]) {
             bubble_sort(numeros_filho);  
         }
     }
-    printf("\nG00dBye Fr1end\n");
-    exit(0);
+	return 0;
 }
 
 /*
